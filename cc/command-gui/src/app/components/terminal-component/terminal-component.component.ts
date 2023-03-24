@@ -24,27 +24,20 @@ export class TerminalComponent implements OnInit {
 
   ngOnInit() {
     const container = document.getElementById('terminal-div') as HTMLElement;
-    const term = new Terminal();
-    const socket = io('http://localhost:1313'); //new WebSocket('wss://localhost:1313/ws');
-    // const attachAddon = new AttachAddon(socket);
-
-    // Attach the socket to term
-    // term.loadAddon(attachAddon);
-
-    term.open(container);
+    
 
     
-    // const fitAddon = new FitAddon();
-    // term.loadAddon(fitAddon);
 
-    // term.options;
 
-    // On input, send to socket backend
+    const term = new Terminal();
+    const socket = io('http://localhost:1313');
+  
+    term.open(container);
+
 		term.onData((data) => {
 			socket.emit("input", data);
 		});
 
-		//When data is received from backend, write to terminal
 		socket.on("output", (data) => {
 			term.write(data);
 		});

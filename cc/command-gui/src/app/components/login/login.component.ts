@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -23,18 +24,16 @@ export class LoginComponent {
   username = ''
   password = '';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router: Router) {}
 
   onSubmit() {
-    const url = 'http://143.42.146.148:3000/generate-jwt';
+    const url = 'http://127.0.0.1:3000/generate-jwt';
     const body = { username: this.username, password: this.password };
 
     this.http.post(url, body).subscribe(
       (response: any) => {
         localStorage.setItem('token', response.token);
-      },
-      (error: any) => {
-        console.error('Error logging in:', error);
+        this.router.navigate(['/remote-desktop']);
       }
     );
   }
